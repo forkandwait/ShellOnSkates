@@ -1,0 +1,3 @@
+2011-06-18 WS: Allow users to download skeleton configuration for each analysis.
+
+2011-06-19 WS: Wacked out testing for file upload

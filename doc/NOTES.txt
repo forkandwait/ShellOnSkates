@@ -1,0 +1,1 @@
+If specify a command line with stdin, will hang.
