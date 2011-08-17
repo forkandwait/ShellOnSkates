@@ -26,7 +26,7 @@ PORT = 9999
 
 ## set up and fire off cgi server, recovering 
 class Handler(CGIHTTPRequestHandler):
-    cgi_directories = ["/cgi"]
+    cgi_directories = ["/"]
 httpd = HTTPServer(("", PORT), Handler)
 sys.stderr.write("serving at port: %i, home dir: %s\n" %(PORT, os.getcwd()))
 sys.stderr.flush()
