@@ -23,13 +23,21 @@ import os
 import sys
 from http.server import HTTPServer, CGIHTTPRequestHandler
 
+## Constantx
+SOS = './shellonskates.py'
+
 ## Handle shell arguments (nifty!)
 parser = argparse.ArgumentParser(description='Run SOS server (which runs SOS cgi...).')
 parser.add_argument('--port', '-p', type=int, help='Port number for server', default=9999)
-parser.add_argument('--db', '-d', type=str, help='Database for CGI')
+parser.add_argument('--db', '-d', type=str, help='Database for CGI', required=True)
 args = parser.parse_args()
 os.environ['SOS_DB']=args.db
 PORT = args.port
+
+## check for presence of shellonskates.py in current directory
+if not os.path.isfile(SOS):
+    sys.stderr.write('Cannot find "%s" in current directory.  Exiting.\n' % SOS)
+    exit(1)
 
 ## set up and fire off cgi server
 class Handler(CGIHTTPRequestHandler):

@@ -1,6 +1,7 @@
 #!/usr/local/bin/python3
 
 ## blah imports blah
+import argparse
 import os
 import shlex
 import sqlite3
@@ -10,8 +11,14 @@ import tempfile
 import time
 import uuid
 
+
+parser = argparse.ArgumentParser(description='Run the queue for SOS.')
+parser.add_argument('--database', '-d', type=str, help='Database location', required=True)
+args = parser.parse_args()
+
 ## start up -- connect to db XXX grab from command line
-conn = sqlite3.connect('/Users/webbs/PROJECTS/SHELL_ON_SKATES/SOS.sqlite3')
+##conn = sqlite3.connect('/Users/webbs/PROJECTS/SHELL_ON_SKATES/SOS.sqlite3')
+conn = sqlite3.connect(args.database)
 cur = conn.cursor()
 
 ## go to reasonable base directory

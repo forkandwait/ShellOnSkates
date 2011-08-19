@@ -16,7 +16,7 @@ if __name__ == '__main__':
     # check for main database, exit if not present.  Use envar so can be fired by 
     DB = os.getenv('SOS_DB')
     if not DB:
-        sys.stderr.write("Missing envar.")
+        sys.stderr.write("Missing envar for SOS_DB.")
         exit(1)
     if not os.path.isfile(DB) or not DB:
         sys.stderr.write("Could not find database.  Tried: '%s'." % DB)
@@ -25,11 +25,18 @@ if __name__ == '__main__':
     # get cgi stuff into standard variables
     formdata = cgi.FieldStorage()
 
-    # uknown task
-    if 'task' not in formdata.keys():
+    # no task parameter -- 
+    if 'task' not in formdata.keys() or  formdata['task'].value == 'listanalyses':
+        ## links to all the output of finished runs (zipped).  Status
+        ## of running analyses
+        conn = sqlite3.connect(DB)
+        cur = conn.cursor()
         print("Content-type: text/html;\n\n")    
-        print ('<h2>Error -- no "task" parameter in submission')
+        for row in cur.execute('select analysis_id from analyses order by analysis_id;'): 
+            print("analysis_id: <a href=shellonskates.py?task=showform&analysis_id=%s>%s</a><br>\n" % (row[0], row[0]))
+            pass
         exit(0)
+        pass 
 
     elif formdata['task'].value == 'enqueue':
         # connect to db
@@ -87,17 +94,6 @@ if __name__ == '__main__':
         exit(0)
         pass
 
-    elif formdata['task'].value == 'listanalyses':
-        ## links to all the output of finished runs (zipped).  Status
-        ## of running analyses
-        conn = sqlite3.connect(DB)
-        cur = conn.cursor()
-        for row in cur.execute('select analysis_id from analyses order by analysis_id;'):
-            print("Content-type: text/html;\n\n")    
-            print("analysis_id: <a href=shellonskates.py?task=showform&analysis_id=%s>%s</a><br>\n" % (row[0], row[0]))
-            pass
-        exit(0)
-        pass 
     elif formdata['task'].value == 'listruns':
         ## links to all the output of finished runs (zipped).  Status
         ## of running analyses
