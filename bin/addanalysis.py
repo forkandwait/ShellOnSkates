@@ -23,9 +23,9 @@ for fname in args.filenames:
     htmlstuff += '\t\tFile to upload (%s): <input name="%s" type="file" size=0> <br>\n' % (fname, fname)
 htmlstuff += ''' 
 \t\t<hr>
-\t<input type="text" value="Description"/><br>
+\tRun description: <input type="text" name="description"/><br>
 \t<input type="submit" value="Submit"/><br>
-<p>Description: "%s" </p>
+<p>Documentation string: "%s" </p>
 </form> ''' % args.docstr
 
 ## connect to database

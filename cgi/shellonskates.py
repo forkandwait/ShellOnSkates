@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 ## Imports
 import cgitb; cgitb.enable() 
@@ -66,9 +66,12 @@ if __name__ == '__main__':
 
         # start new run:  push new run-id + analysis name onto queue in db, mk temp dir
         run_id = str(uuid.uuid4())
+        a_id = str(formdata['analysis_id'].value) 
+        descrip = str(formdata['description'].value) 
+        
         run_dir = tempfile.mkdtemp() 
-        cur.execute('insert into queue (run_id, run_dir, analysis_id) values (?, ?, ?);',
-                    [str(run_id), str(run_dir), str(a_id)]) 
+        cur.execute('insert into queue (run_id, run_dir, analysis_id, description) values (?, ?, ?, ?);',
+                    [run_id, str(run_dir), a_id, descrip]) 
 
         # Grab all the form data and either store files in the
         # directory or form values in a keyvalue table.  XXX Bunch of
@@ -111,14 +114,14 @@ if __name__ == '__main__':
         conn = sqlite3.connect(DB)
         cur = conn.cursor()
         print("Content-type: text/html;\n\n")    
-        print("<table><tr><th>Analysis<th>Push Time<th>Notes<th>ID<tr/>")
-        
-        for row in cur.execute('select run_id, analysis_id, run_pushtime, run_finishtime from queue order by run_pushtime desc'): 
+        print("<table><tr><th>Analysis<th>Push Time<th>Notes<th>Description<tr/>")
+        sql = 'select run_id, analysis_id, run_pushtime, run_finishtime, description from queue order by run_pushtime desc'
+        for row in cur.execute(sql): 
             if row[3] is None:
-                print("<tr><td>%s<td>%s<td>PENDING<td>%s</tr>\n" % (row[1], row[2], row[0])) 
+                print("<tr><td>%s<td>%s<td>PENDING<td>%s</tr>\n" % (row[1], row[2], row[4])) 
             else:
                 print("<tr><td>%s<td>%s<td>FINIS<td><a href=shellonskates.py?task=downloadresults&run_id=%s>%s</a></tr>\n" % \
-                          (row[1], row[2], row[0], row[0]))
+                          (row[1], row[2], row[0], row[4]))
             pass
         print ("</table>")
         print(linkstr) 
