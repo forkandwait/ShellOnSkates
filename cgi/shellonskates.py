@@ -49,6 +49,11 @@ if __name__ == '__main__':
         conn = sqlite3.connect(DB)
         cur = conn.cursor()
 
+        # get base dir, or raise exception
+        base_dir = cur.execute('select base_dir from config limit 1;').fetchone()[0]
+        if base_dir is None:
+            raise Exception("No base dir in db")
+
         # from form data, read analysis id, verify in database, exit if not
         if 'analysis_id' not in formdata.keys():
             print("Content-type: text/html;\n\n")    
@@ -68,10 +73,10 @@ if __name__ == '__main__':
         run_id = str(uuid.uuid4())
         a_id = str(formdata['analysis_id'].value) 
         descrip = str(formdata['description'].value) 
-        
-        run_dir = tempfile.mkdtemp() 
+        run_dir = base_dir + '/' + run_id
         cur.execute('insert into queue (run_id, run_dir, analysis_id, description) values (?, ?, ?, ?);',
                     [run_id, str(run_dir), a_id, descrip]) 
+        os.mkdir(run_dir)
 
         # Grab all the form data and either store files in the
         # directory or form values in a keyvalue table.  XXX Bunch of

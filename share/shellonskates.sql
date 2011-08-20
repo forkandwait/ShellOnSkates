@@ -2,14 +2,8 @@
 
 -- config file -- only use one row...
 create table if not exists config(
-	results_dir text
-	,tmp_dir text
-	,base_dir text
+	base_dir text
 );
-insert into config 
-	(results_dir, tmp_dir, base_dir)
-	values
-	('/tmp/sos/results', '/tmp', '/tmp/sos');
 
 -- queue runner state (instead of /var/run/sos.pid)
 create table if not exists qrstate(

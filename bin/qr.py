@@ -4,6 +4,7 @@
 import argparse
 import os
 import shlex
+import shutil
 import sqlite3
 import subprocess
 import sys
@@ -14,10 +15,10 @@ import uuid
 ## Set up command line args
 parser = argparse.ArgumentParser(description='Run the queue for SOS.')
 parser.add_argument('--database', '-d', type=str, help='Database location', required=True)
+parser.add_argument('--clobberdirs', '-X', type=str, help='Remove working directories after run')
 args = parser.parse_args()
 
-## start up -- connect to db XXX grab from command line
-##conn = sqlite3.connect('/Users/webbs/PROJECTS/SHELL_ON_SKATES/SOS.sqlite3')
+## start up -- connect to db
 conn = sqlite3.connect(args.database)
 cur = conn.cursor()
 
@@ -54,20 +55,15 @@ while True:
 
     # do analysis -- use call() because Popen is too object oriented and lame
     commandstr = cur.execute('select commandstr from analyses where analysis_id = ?;', (analysis_id,)).fetchone()[0]
-    sys.stderr.write('running %s (%s)\n' % (commandstr, run_id))
     os.chdir(run_dir)
     rc = subprocess.call(commandstr, shell=True);    
     cur.execute('update queue set run_finishtime=current_timestamp, run_exitcode=? where run_id = ?;', (rc, run_id))
-    sys.stderr.write('ran %s (%s) with return code %i.  zipping results.\n' % (commandstr, run_id, rc))
 
     # if ok, zip up results, save in db, update state tables
     os.chdir('..')
-    sys.stderr.write(os.getcwd()+"\n")
     cur.execute('update qrstate set current_runstate = ?;', ('ZIPPING',))
-    zipcommand = "zip -r '%s/%s' '%s'" % (base_dir, run_id, os.path.basename(run_dir))
-    sys.stderr.write(zipcommand + "\n")
+    zipcommand = "zip -q -r '%s/%s' '%s'  " % (base_dir, run_id, os.path.basename(run_dir))
     p = subprocess.Popen(shlex.split(zipcommand))
-    #p = subprocess.Popen(shlex.split("tar cvzf %s/%s.tar.gz '%s'" % (base_dir, run_id, run_dir)))    
     rc = p.wait()
     if rc != 0:
         raise Exception('Non zero return code from zip: %i' % rc)
@@ -78,18 +74,15 @@ while True:
             ablob = input_file.read()
             cur.execute("update queue set results = ? where run_id = ?", [sqlite3.Binary(ablob), run_id])
         pass
-    sys.stderr.write('finished zipping %s (%s).\n' % (commandstr, run_id))
-
-
-    # XXX cd to base directory
-    #os.chdir(base_dir)
     
-    ## commit this run's changes
+    ## commit this run's changes, clean up
     conn.commit()
-    
-    pass
+    if args.clobberdirs:
+        shutil.rmtree(run_dir)
+        os.remove("%s.zip" % run_id);
 
 ## clean up, summarize
 cur.execute('update qrstate set finish_time = current_timestamp where pid = ?;', (_pid,))
 conn.commit()
+
 exit(0)
