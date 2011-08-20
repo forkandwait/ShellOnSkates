@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 ## blah imports blah
 import argparse
@@ -11,7 +11,7 @@ import tempfile
 import time
 import uuid
 
-
+## Set up command line args
 parser = argparse.ArgumentParser(description='Run the queue for SOS.')
 parser.add_argument('--database', '-d', type=str, help='Database location', required=True)
 args = parser.parse_args()
