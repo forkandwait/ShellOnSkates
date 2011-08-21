@@ -17,7 +17,6 @@ cat ./share/shellonskates.sql | sqlite3 $DB
 echo "begin; delete from config; insert into config (base_dir) values ('$(pwd)/tmp'); commit;" | sqlite3 $DB
 
 # output instructions on how to run
-printf "execute the server like this:\n\t '$(pwd)/bin/server.py -d $DB'"
-printf "execute the queue runner like this (from cron if wanted):\n\t '$(pwd)/bin/qr.py -d $DB' "
-echo ""
-printf "Read the README for more instructions."
+printf "execute the server like this:\n\t '$(pwd)/bin/server.py -d $DB'\n\n"
+printf "execute the queue runner like this (from cron if wanted):\n\t '$(pwd)/bin/qr.py -d $DB' \n\n"
+printf "Read the README for more instructions.\n"
