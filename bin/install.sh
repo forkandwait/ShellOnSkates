@@ -2,13 +2,12 @@
 
 
 # check we are in the right place in the dir tree (look for programs,
-# maybe run something with git)
+# maybe run something with git). USE BETTER STACK OVERFLOW THING FOR SCRIPT LOCATION
 cd ..
 echo $(pwd)
 DB="$(pwd)/var/SOS.sqlite3"
 echo $DB
-echo wtf
-exit 1
+
 # check that zip and python3 are availabe
 
 
