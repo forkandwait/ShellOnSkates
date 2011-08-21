@@ -35,7 +35,6 @@ create table if not exists analyses (
 	,commandstr text
 	,description text
 );	   
-insert into analyses (analysis_id, commandstr, description) values ('wc', 'wc datafile 1>out 2>err', 'counts words in an uploaded file');
 
 -- form key values 
 create table if not exists formkv (
