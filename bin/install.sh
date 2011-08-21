@@ -4,13 +4,15 @@
 # check we are in the right place in the dir tree (look for programs,
 # maybe run something with git)
 cd ..
-
-
+echo $(pwd)
+DB="$(pwd)/var/SOS.sqlite3"
+echo $DB
+exit(1)
 # check that zip and python3 are availabe
 
 
 # create database from sql
-DB="$(pwd)/var/SOS.sqlite3"
+
 sqlite3 $DB < ./share/shellonskates.sql
 
 # prime database from pwd and dir structure where install.sh is
