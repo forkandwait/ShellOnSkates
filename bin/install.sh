@@ -1,5 +1,5 @@
 
-
+set -e -u
 
 # check we are in the right place in the dir tree (look for programs,
 # maybe run something with git). USE BETTER STACK OVERFLOW THING FOR SCRIPT LOCATION
