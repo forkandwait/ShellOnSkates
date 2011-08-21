@@ -35,7 +35,7 @@ os.environ['SOS_DB']=args.db
 PORT = args.port
 
 ## cd to cwd and check for presence of shellonskates.py
-os.chdir(os.path.abspath(__file__)
+os.chdir(os.path.abspath(__file__))
 if not os.path.isfile(SOS):
     sys.stderr.write('Cannot find "%s" in current directory.  Exiting.\n' % SOS)
     exit(1)
