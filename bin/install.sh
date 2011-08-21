@@ -13,7 +13,7 @@ echo $DB
 
 # create database from sql
 
-#sqlite3 $DB < ./share/shellonskates.sql
+cat ./share/shellonskates.sql | sqlite3 
 
 # prime database from pwd and dir structure where install.sh is
 # located. delete config first.  install a simple test program.
