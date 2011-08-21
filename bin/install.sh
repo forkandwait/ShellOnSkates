@@ -7,7 +7,8 @@ cd ..
 echo $(pwd)
 DB="$(pwd)/var/SOS.sqlite3"
 echo $DB
-exit(1)
+echo wtf
+exit 1
 # check that zip and python3 are availabe
 
 
