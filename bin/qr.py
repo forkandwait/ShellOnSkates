@@ -56,7 +56,7 @@ while True:
     # do analysis -- use call() because Popen is too object oriented and lame
     commandstr = cur.execute('select commandstr from analyses where analysis_id = ?;', (analysis_id,)).fetchone()[0]
     os.chdir(run_dir)
-    sys.stderr.write('qr.py: executing "%s" command string' %commandstr)
+    sys.stderr.write('qr.py: executing "%s" command string\n' %commandstr)
     sys.stderr.flush()
     rc = subprocess.call(commandstr, shell=True);    
     cur.execute('update queue set run_finishtime=current_timestamp, run_exitcode=? where run_id = ?;', (rc, run_id))
