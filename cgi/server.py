@@ -34,7 +34,8 @@ args = parser.parse_args()
 os.environ['SOS_DB']=args.db
 PORT = args.port
 
-## check for presence of shellonskates.py in current directory
+## cd to cwd and check for presence of shellonskates.py
+os.chdir(os.path.abspath(__file__)
 if not os.path.isfile(SOS):
     sys.stderr.write('Cannot find "%s" in current directory.  Exiting.\n' % SOS)
     exit(1)
