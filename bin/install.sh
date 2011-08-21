@@ -17,7 +17,7 @@ cat ./share/shellonskates.sql | sqlite3 $DB
 
 # prime database from pwd and dir structure where install.sh is
 # located. delete config first.  install a simple test program.
-echo "begin; delete from config; insert into config (base_dir) values '$(pwd)'; commit;" #| sqlite3 $DB
+echo "begin; delete from config; insert into config (base_dir) values ('$(pwd)'); commit;" #| sqlite3 $DB
 
 # output instructions on how to run
 echo "execute the server like this: '$(pwd)/bin/server.py -d $DB'"
