@@ -42,14 +42,3 @@ create table if not exists formkv (
 	,k text
 	,v text
 );
--- other state
-
--- history (not runs, since keep queue)
-
--- allowed run exit codes
-
--- users
-
--- installation and upgrade stuff
-
--- prime the tables with values

@@ -1,4 +1,4 @@
-
+#!/usr/bin/env sh
 set -e -u
 
 # check we are in the right place in the dir tree (look for programs,
