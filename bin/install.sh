@@ -17,12 +17,23 @@ DB="$BASEDIR/var/SOS.sqlite3"
 cat ./share/shellonskates.sql | sqlite3 $DB
 echo "begin; delete from config; insert into config (base_dir) values ('$BASEDIR/var/tmp'); commit;" | sqlite3 $DB
 
-# output instructions on how to run
-printf "SUCCESS!!\n\n"
-printf "add an analysis with \"addanalyis.py\".  For example word count with \"wc\":\n"
-printf "    'python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \\\n"
-printf "        -a wc1 -c 'wc <infile 1>out 2>err' -D 'runs wc (wordcount) on infile'\n\n"
-printf "execute the server like this:\n\t 'python3 $BASEDIR/cgi/server.py -d $DB'\n\n"
-printf "browse to http://localhost:9999/shellonskates.py"
-printf "execute the queue runner like this (from cron if wanted):\n\t 'python3 $BASEDIR/bin/qr.py -d $DB' \n\n"
-printf "Read the README for more information.\n"
+# write a simple working set of get started commands
+EXSCRIPT=example.sh
+cat > $EXSCRIPT <<EOF
+
+# add an analysis with "addanalyis.py".  For example word count with "wc":
+python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \
+        -a wc1 -c 'wc <infile 1>out 2>err' -D 'runs wc (wordcount) on infile'
+
+# execute the server like this:\n\t
+python3 $BASEDIR/cgi/server.py -d $DB
+
+# browse to http://localhost:9999/shellonskates.py
+
+# execute the queue runner like this (from cron if wanted):
+python3 $BASEDIR/bin/qr.py -d $DB
+
+EOF
+
+#  finis
+printf "SUCCESS!!  Look in $EXSCRIPT to see a set of installation commands.  Read the README.\n\n"
