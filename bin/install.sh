@@ -28,8 +28,9 @@ python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \\
 
 # execute the server:
 echo browse to http://localhost:9999/shellonskates.py 
-(python3 $BASEDIR/cgi/server.py -d $DB) &
+python3 $BASEDIR/cgi/server.py -d $DB &
 PY_ID=\$\$
+echo \$\$
 read 'Press enter to stop server and run queue runner '
 kill \$PY_ID
 
