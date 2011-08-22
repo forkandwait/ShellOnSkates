@@ -27,10 +27,11 @@ python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \\
         -a wc1 -c 'grep -H -f patternfile <infile 1>out 2>err' -D 'runs grep on infile with patterns from patternfile'  patternfile infile
 
 # execute the server:
-python3 $BASEDIR/cgi/server.py -d $DB
-
-# browse to http://localhost:9999/shellonskates.py
-read -p 'Press enter after finished uploading files'
+echo browse to http://localhost:9999/shellonskates.py 
+(python3 $BASEDIR/cgi/server.py -d $DB) &
+PY_ID=$$
+read 'Press enter to stop server and run queue runner '
+kill $PY_ID
 
 # execute the queue runner (from cron if wanted):
 python3 $BASEDIR/bin/qr.py -d $DB
