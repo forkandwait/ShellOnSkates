@@ -20,7 +20,8 @@ echo "begin; delete from config; insert into config (base_dir) values ('$BASEDIR
 # output instructions on how to run
 printf "SUCCESS!!\n\n"
 printf "add an analysis with \"addanalyis.py\".  For example word count with \"wc\":\n"
-printf "\t 'python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 -a wc1 -c 'wc <infile 1>out 2>err' -D 'runs wc (wordcount)' infile'\n\n"
+printf "    'python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \\\n"
+printf "        -a wc1 -c 'wc <infile 1>out 2>err' -D 'runs wc (wordcount) on infile'\n\n"
 printf "execute the server like this:\n\t 'python3 $BASEDIR/cgi/server.py -d $DB'\n\n"
 printf "browse to http://localhost:9999/shellonskates.py"
 printf "execute the queue runner like this (from cron if wanted):\n\t 'python3 $BASEDIR/bin/qr.py -d $DB' \n\n"
