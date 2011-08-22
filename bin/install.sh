@@ -31,7 +31,7 @@ echo browse to http://localhost:9999/shellonskates.py
 python3 $BASEDIR/cgi/server.py -d $DB &
 PY_ID=\$\$
 echo \$\$
-read 'Press enter to stop server and run queue runner '
+read -p 'Press enter to stop server and run queue runner '
 kill \$PY_ID
 
 # execute the queue runner (from cron if wanted):
