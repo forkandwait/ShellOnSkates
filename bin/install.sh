@@ -30,7 +30,7 @@ python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \\
 python3 $BASEDIR/cgi/server.py -d $DB 2>/dev/null 1>/dev/null &
 sleep 1
 PY_ID=\$!
-read -p "browse to http://localhost:9999/shellonskates.py, do stuff, then press enter"
+read -p "browse to http://localhost:8998/shellonskates.py, do stuff, then press enter"
 
 # execute the queue runner (from cron if wanted):
 python3 $BASEDIR/bin/qr.py -d $DB
