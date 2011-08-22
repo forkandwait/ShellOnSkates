@@ -4,8 +4,7 @@ set -e -u
 # check we are in the right place in the dir tree, cd to ONE ABOVE the script
 # directory so can find everything else
 DIR="$( cd "$( dirname "$0" )" && pwd )"
-cd $DIR
-cd ..
+cd $DIR; cd ..
 BASEDIR=$(pwd)
 
 # check that zip and python3 are availabe
@@ -21,16 +20,19 @@ echo "begin; delete from config; insert into config (base_dir) values ('$BASEDIR
 EXSCRIPT=example.sh
 cat > $EXSCRIPT <<EOF
 
-# add an analysis with "addanalyis.py".  For example word count with "wc":
-python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \
-        -a wc1 -c 'wc <infile 1>out 2>err' -D 'runs wc (wordcount) on infile'
+set -u -e 
 
-# execute the server like this:\n\t
+# add an analysis with "addanalyis.py".  For example grep with a pattern file:
+python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \\
+        -a wc1 -c 'grep -H -f patternfile <infile 1>out 2>err' -D 'runs grep on infile with patterns from patternfile'  
+
+# execute the server:
 python3 $BASEDIR/cgi/server.py -d $DB
 
 # browse to http://localhost:9999/shellonskates.py
+read -p 'Press enter after finished uploading files'
 
-# execute the queue runner like this (from cron if wanted):
+# execute the queue runner (from cron if wanted):
 python3 $BASEDIR/bin/qr.py -d $DB
 
 EOF
