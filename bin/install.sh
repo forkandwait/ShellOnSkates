@@ -24,7 +24,7 @@ set -u -e
 
 # add an analysis with "addanalyis.py".  For example grep with a pattern file:
 python3 $BASEDIR/bin/addanalysis.py  -d $BASEDIR/var/SOS.sqlite3 \\
-        -a wc1 -c 'grep -H -f patternfile <infile 1>out 2>err' -D 'runs grep on infile with patterns from patternfile'  
+        -a wc1 -c 'grep -H -f patternfile <infile 1>out 2>err' -D 'runs grep on infile with patterns from patternfile'  patternfile infile
 
 # execute the server:
 python3 $BASEDIR/cgi/server.py -d $DB
