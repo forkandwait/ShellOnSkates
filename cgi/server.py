@@ -28,7 +28,7 @@ SOS = './shellonskates.py'
 
 ## Handle shell arguments (nifty!)
 parser = argparse.ArgumentParser(description='Run SOS server (which runs SOS cgi...).')
-parser.add_argument('--port', '-p', type=int, help='Port number for server', default=8998)
+parser.add_argument('--port', '-p', type=int, help='Port number for server', default=8888)
 parser.add_argument('--db', '-d', type=str, help='Database for CGI', required=True)
 args = parser.parse_args()
 os.environ['SOS_DB']=args.db
